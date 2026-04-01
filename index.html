@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Essência IA - Sua Assinatura Olfativa</title>
+  </head>
+  <body class="bg-perfume-black text-perfume-dark font-sans antialiased min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="py-8 px-6 md:px-12 flex justify-between items-center border-b border-perfume-gold/10">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+          <i data-lucide="sparkles" class="text-black w-5 h-5"></i>
+        </div>
+        <h1 class="text-2xl font-serif font-semibold tracking-widest uppercase text-perfume-gold">Essência IA</h1>
+      </div>
+      <nav class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-medium opacity-60">
+        <a href="#" class="hover:opacity-100 transition-opacity">Coleções</a>
+        <a href="#" class="hover:opacity-100 transition-opacity">História</a>
+        <a href="#" class="hover:opacity-100 transition-opacity">Contato</a>
+      </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto px-6 py-12 max-w-5xl">
+      <div class="grid md:grid-cols-2 gap-16 items-start">
+        <!-- Left Column: Input -->
+        <div id="input-section" class="space-y-8">
+          <div class="space-y-4">
+            <h2 class="text-5xl md:text-6xl font-serif leading-tight text-perfume-gold">
+              Sua assinatura <br />
+              <span class="italic text-perfume-gold">olfativa</span> única.
+            </h2>
+            <p class="text-lg text-perfume-dark/60 font-light leading-relaxed">
+              Descreva como você deseja se sentir, uma memória querida ou as notas que te encantam. Nossa IA mestre perfumista encontrará a fragrância perfeita para sua alma.
+            </p>
+          </div>
+
+          <form id="perfume-form" class="space-y-6">
+            <div class="relative">
+              <textarea
+                id="description"
+                placeholder="Ex: Quero um perfume que lembre uma manhã de primavera em Paris, com notas de rosas frescas e um toque de mistério amadeirado..."
+                class="w-full h-40 p-6 bg-white/5 border border-perfume-gold/20 rounded-2xl focus:ring-2 focus:ring-perfume-gold/20 focus:border-perfume-gold outline-none transition-all resize-none text-lg font-light text-white placeholder:text-white/20"
+              ></textarea>
+              <div id="char-count" class="absolute bottom-4 right-4 text-xs text-perfume-gold/40 uppercase tracking-widest">
+                0 caracteres
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+              <button type="button" data-category="Fresco" class="category-btn flex items-center gap-2 px-4 py-2 rounded-full border border-perfume-gold/10 bg-white/5 hover:border-perfume-gold/40 hover:bg-white/10 transition-all text-sm font-medium text-white/70 hover:text-white">
+                <i data-lucide="wind" class="w-4 h-4 text-blue-400"></i> Fresco
+              </button>
+              <button type="button" data-category="Floral" class="category-btn flex items-center gap-2 px-4 py-2 rounded-full border border-perfume-gold/10 bg-white/5 hover:border-perfume-gold/40 hover:bg-white/10 transition-all text-sm font-medium text-white/70 hover:text-white">
+                <i data-lucide="droplets" class="w-4 h-4 text-pink-400"></i> Floral
+              </button>
+              <button type="button" data-category="Amadeirado" class="category-btn flex items-center gap-2 px-4 py-2 rounded-full border border-perfume-gold/10 bg-white/5 hover:border-perfume-gold/40 hover:bg-white/10 transition-all text-sm font-medium text-white/70 hover:text-white">
+                <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i> Amadeirado
+              </button>
+              <button type="button" data-category="Oriental" class="category-btn flex items-center gap-2 px-4 py-2 rounded-full border border-perfume-gold/10 bg-white/5 hover:border-perfume-gold/40 hover:bg-white/10 transition-all text-sm font-medium text-white/70 hover:text-white">
+                <i data-lucide="flame" class="w-4 h-4 text-orange-500"></i> Oriental
+              </button>
+            </div>
+
+            <button
+              type="submit"
+              id="submit-btn"
+              class="w-full py-5 rounded-2xl gold-gradient text-black font-serif text-xl font-bold shadow-xl shadow-perfume-gold/10 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-3"
+            >
+              <span>Descobrir Fragrância</span>
+              <i data-lucide="arrow-right" class="w-6 h-6"></i>
+            </button>
+          </form>
+
+          <div id="error-message" class="hidden p-4 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl text-sm flex items-center gap-3">
+            <i data-lucide="info" class="w-5 h-5 flex-shrink-0"></i>
+            <span id="error-text"></span>
+          </div>
+        </div>
+
+        <!-- Right Column: Result -->
+        <div id="result-container" class="relative min-h-[500px]">
+          <!-- Placeholder -->
+          <div id="placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-center space-y-6 opacity-20">
+            <div class="w-32 h-32 border-2 border-dashed border-perfume-gold rounded-full flex items-center justify-center">
+              <i data-lucide="droplets" class="w-12 h-12 text-perfume-gold"></i>
+            </div>
+            <p class="font-serif text-xl italic text-perfume-gold">Aguardando sua descrição...</p>
+          </div>
+
+          <!-- Loading -->
+          <div id="loading" class="hidden absolute inset-0 flex flex-col items-center justify-center space-y-8">
+            <div class="relative">
+              <div class="w-24 h-24 rounded-full border-t-2 border-perfume-gold animate-spin"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-8 h-8 text-perfume-gold animate-pulse"></i>
+              </div>
+            </div>
+            <div class="text-center space-y-2">
+              <p class="font-serif text-2xl italic text-perfume-gold">Consultando o Mestre Perfumista</p>
+              <p class="text-sm tracking-[0.2em] uppercase opacity-40 text-perfume-gold">Analisando notas sensoriais</p>
+            </div>
+          </div>
+
+          <!-- Result Card -->
+          <div id="result-card" class="hidden bg-zinc-900 p-8 md:p-12 rounded-[2rem] shadow-2xl border border-perfume-gold/20 space-y-10">
+            <div class="text-center space-y-2">
+              <p class="text-perfume-gold uppercase tracking-[0.3em] text-xs font-bold">Sua Recomendação</p>
+              <h3 id="perfume-name" class="text-4xl font-serif font-medium text-white"></h3>
+              <p id="perfume-brand" class="text-xl font-serif italic text-perfume-gold/60"></p>
+            </div>
+
+            <!-- Price and Purchase Section -->
+            <div class="bg-black/40 border border-perfume-gold/20 rounded-2xl p-6 flex flex-col items-center gap-4">
+              <div class="flex items-center gap-2 text-perfume-gold">
+                <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                <span class="text-sm uppercase tracking-widest font-bold">Onde Comprar</span>
+              </div>
+              <div id="shopping-links" class="w-full space-y-1">
+                <!-- preenchido por ResultView.renderShopping() -->
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-perfume-gold/10 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="info" class="w-5 h-5 text-perfume-gold"></i>
+                </div>
+                <p id="perfume-explanation" class="text-white/80 leading-relaxed italic"></p>
+              </div>
+
+              <div class="h-px bg-perfume-gold/10 w-full"></div>
+
+              <div class="space-y-8">
+                <h4 class="text-center font-serif text-2xl text-perfume-gold">Construção Olfativa</h4>
+                
+                <div class="grid gap-6">
+                  <div id="notes-topo" class="note-section"></div>
+                  <div id="notes-coracao" class="note-section"></div>
+                  <div id="notes-base" class="note-section"></div>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              id="reset-btn"
+              class="w-full py-4 border border-perfume-gold/20 rounded-xl hover:bg-perfume-gold hover:text-black transition-all text-sm uppercase tracking-widest font-bold text-perfume-gold"
+            >
+              Nova Busca
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-perfume-gold/10 bg-black/50">
+      <div class="container mx-auto max-w-5xl flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="text-center md:text-left">
+          <h4 class="font-serif text-xl mb-2 text-perfume-gold">Essência IA</h4>
+          <p class="text-sm text-white/40">A arte da perfumaria encontra a inteligência artificial.</p>
+        </div>
+        <div class="flex gap-6 text-xs uppercase tracking-widest font-bold opacity-40 text-white">
+          <a href="#" class="hover:opacity-100">Privacidade</a>
+          <a href="#" class="hover:opacity-100">Termos</a>
+          <a href="#" class="hover:opacity-100">Cookies</a>
+        </div>
+        <p class="text-xs text-white/30">© 2024 Essência IA. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
